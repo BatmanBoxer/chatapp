@@ -2,25 +2,36 @@ package handlers
 
 import (
 	"context"
-	"github.com/batmanboxer/mockchatappre/api/websocket"
-	"github.com/batmanboxer/mockchatappre/common"
-	"github.com/batmanboxer/mockchatappre/internals/authentication"
 	"log"
 	"net/http"
+	"github.com/batmanboxer/chatapp/internals/authentication"
+	"github.com/batmanboxer/chatapp/api/chat"
+	"github.com/batmanboxer/chatapp/common"
+	"github.com/batmanboxer/chatapp/models"
+	"github.com/gorilla/websocket"
 )
 
+type WebSocketService interface {
+	WebsocketAddClient(conn *websocket.Conn, chatRoomId string, userId string)
+}
+
+type AuthService interface {
+	AuthLogin(models.LoginData) (string, error)
+	AuthSignUp(models.SignUpData) error
+}
+
 type Handlers struct {
-	WebSocketManager *websocket.WebSocketManager
-	AuthManager      *auth.AuthManager
+	AuthManager AuthService
+	ChatManager WebSocketService
 }
 
 func NewHandlers(
 	authManager *auth.AuthManager,
-	webSocketManager *websocket.WebSocketManager,
+	webSocketManager *chat.WebSocketManager,
 ) *Handlers {
 	return &Handlers{
-		WebSocketManager: webSocketManager,
-		AuthManager:      authManager,
+		AuthManager: authManager,
+		ChatManager: webSocketManager,
 	}
 }
 

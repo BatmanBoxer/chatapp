@@ -1,4 +1,4 @@
-module github.com/batmanboxer/mockchatappre
+module github.com/batmanboxer/chatapp
 
 go 1.23.7
 

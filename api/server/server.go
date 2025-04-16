@@ -3,11 +3,10 @@ package server
 import (
 	"net/http"
 	"sync"
-
-	"github.com/batmanboxer/mockchatappre/api/handlers"
-	"github.com/batmanboxer/mockchatappre/api/websocket"
-	"github.com/batmanboxer/mockchatappre/internals/authentication"
-	"github.com/batmanboxer/mockchatappre/models"
+	"github.com/batmanboxer/chatapp/api/handlers"
+	"github.com/batmanboxer/chatapp/api/chat"
+	"github.com/batmanboxer/chatapp/internals/authentication"
+	"github.com/batmanboxer/chatapp/models"
 	"github.com/gorilla/mux"
 )
 
@@ -39,7 +38,7 @@ func (api *Api) StartApi() {
 		AuthDb: api.storage,
 	}
 
-	webSocketManager := websocket.WebSocketManager{
+	ChatManager := chat.WebSocketManager{
 		Storage: api.storage,
     Clients:map[string][]*models.Client{},
     Mutex: sync.RWMutex{},
@@ -47,7 +46,7 @@ func (api *Api) StartApi() {
 
   handlers := handlers.NewHandlers(
     &authManager,
-		&webSocketManager ,
+		&ChatManager ,
 	)
 
 	mux := mux.NewRouter()
@@ -55,8 +54,7 @@ func (api *Api) StartApi() {
 	mux.HandleFunc("/login", handlers.WrapperHandler(handlers.LoginHandler))
 	mux.HandleFunc("/signup", handlers.WrapperHandler(handlers.SignUpHandler))
 	mux.HandleFunc("/validate", handlers.WrapperHandler(handlers.ValidateHanlder))
-	//mux.HandleFunc("/listen/{id}", handlers.AuthenticationMiddleware(handlers.WrapperHandler(handlers.WebSocketManager.WebsocketHandler)))
-	mux.HandleFunc("/ws", handlers.AuthenticationMiddleware(handlers.WrapperHandler(handlers.WebSocketManager.WebsocketHandler)))
+	mux.HandleFunc("/listen/{id}", handlers.AuthenticationMiddleware(handlers.WrapperHandler(handlers.WebsocketHandler)))
 
 	http.ListenAndServe(":4000", mux)
 }

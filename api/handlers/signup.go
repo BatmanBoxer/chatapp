@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"github.com/batmanboxer/mockchatappre/common"
-	"github.com/batmanboxer/mockchatappre/internals/utils"
-	"github.com/batmanboxer/mockchatappre/models"
+	"github.com/batmanboxer/chatapp/common"
+	"github.com/batmanboxer/chatapp/internals/utils"
+	"github.com/batmanboxer/chatapp/models"
 )
 
+//Handle Error Only Once Darwin. Dont be a Idiot
 func (handler *Handlers) SignUpHandler(w http.ResponseWriter, r *http.Request) error {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -47,7 +48,7 @@ func (handler *Handlers) SignUpHandler(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	status := models.SignUpSucess{Status: common.SUCCESS}
+	status := models.SignUpSuccess{Status: common.SUCCESS}
 	utils.WriteJson(w, status)
 	return nil
 }
@@ -66,6 +67,7 @@ func ValidateEmail(email *string) error {
 	if email == nil || strings.TrimSpace(*email) == "" {
 		return errors.New("email cannot be empty")
 	}
+  //I dont understand this Regex
 	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
 
 	matched, err := regexp.MatchString(emailRegex, *email)

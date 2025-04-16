@@ -1,4 +1,4 @@
-package websocket
+package chat
 
 import (
 	"fmt"
@@ -6,19 +6,17 @@ import (
 	"net/http"
 	"sync"
 	"time"
-
-	"github.com/batmanboxer/mockchatappre/common"
-	"github.com/batmanboxer/mockchatappre/models"
+	"github.com/batmanboxer/chatapp/models"
 	"github.com/gorilla/websocket"
 )
 
-type WebsocketStorage interface {
+type ChatStorage interface {
 	GetMessages(string, int, int) ([]models.MessageModel, error)
 	AddMessage(messageModel models.MessageModel) error
 }
 
 type WebSocketManager struct {
-  Storage WebsocketStorage
+  Storage ChatStorage
   Clients map[string][]*models.Client
   Mutex   sync.RWMutex
 }
@@ -142,23 +140,7 @@ func (h *WebSocketManager) handleMessages(client *models.Client) {
 	}
 }
 
-func (h *WebSocketManager) WebsocketHandler(w http.ResponseWriter, r *http.Request)error {
-	//vars := mux.Vars(r)
-	//chatroomId := vars["id"]
-	chatroomId := "test"
-	userId := r.Context().Value(common.CONTEXTIDKEY)
-	stringUserId := userId.(string)
-
-	upgrader := websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool {
-			return true
-		},
-	}
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		fmt.Println("Error upgrading to WebSocket:", err)
-		return err
-	}
+func (h *WebSocketManager) WebsocketAddClient(conn *websocket.Conn,chatRoomId string,stringUserId string) {
 	client := &models.Client{
 		Id:        stringUserId,
 		Conn:      conn,
@@ -166,10 +148,9 @@ func (h *WebSocketManager) WebsocketHandler(w http.ResponseWriter, r *http.Reque
 		Closech:   make(chan struct{}),
 	}
 
-	h.addClient(chatroomId, client)
+	h.addClient(chatRoomId, client)
 
 	<-client.Closech
 	conn.Close()
-	h.removeClient(chatroomId, stringUserId)
-	return nil
+	h.removeClient(chatRoomId, stringUserId)
 }

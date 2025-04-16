@@ -9,7 +9,7 @@ type LoginSucess struct {
 	Jwt string `json:"jwt"`
 }
 
-type SignUpSucess struct {
+type SignUpSuccess struct {
 	Status string `json:"status"`
 }
 

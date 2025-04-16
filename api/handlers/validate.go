@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/batmanboxer/mockchatappre/internals/authentication"
+	"github.com/batmanboxer/chatapp/internals/authentication"
 )
 
 func(hanlders Handlers) ValidateHanlder(w http.ResponseWriter, r *http.Request) error {

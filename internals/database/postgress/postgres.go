@@ -2,7 +2,7 @@ package postgress
 
 import (
 	"database/sql"
-	"github.com/batmanboxer/mockchatapp/models"
+	"github.com/batmanboxer/chatapp/models"
 	_ "github.com/lib/pq"
 )
 

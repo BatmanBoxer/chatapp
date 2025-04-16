@@ -2,10 +2,10 @@ package auth
 
 import (
 	"errors"
-	"github.com/batmanboxer/mockchatappre/models"
+	"github.com/batmanboxer/chatapp/models"
 )
 
-func (auth AuthManager) AuthLogin(data models.LoginData) (string, error) {
+func (auth *AuthManager) AuthLogin(data models.LoginData) (string, error) {
 	account, err := auth.AuthDb.GetUserByEmail(data.Email)
 	if err != nil {
 		return "", err
