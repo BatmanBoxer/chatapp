@@ -6,6 +6,7 @@ import (
 	"github.com/batmanboxer/chatapp/api/features/authentication"
 )
 
+//this exist entierly for testing the api. remove this in prod
 func(hanlders Handlers) ValidateHanlder(w http.ResponseWriter, r *http.Request) error {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -15,6 +16,7 @@ func(hanlders Handlers) ValidateHanlder(w http.ResponseWriter, r *http.Request) 
 	body := struct {
 		Jwt string `json:"jwt"`
 	}{}
+
 	err := json.NewDecoder(r.Body).Decode(&body)
 
 	if err != nil {

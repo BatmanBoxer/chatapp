@@ -3,6 +3,8 @@ package models
 import (
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -25,3 +27,10 @@ type Client struct {
 	Closech   chan struct{}
 	Mutex     *sync.RWMutex
 }
+
+type ChatRoom struct {
+	ID        int   `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UserIDs   []uuid.UUID `json:"user_ids"`
+}
+

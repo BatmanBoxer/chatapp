@@ -10,15 +10,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type ChatStorage interface {
-	GetMessages(string, int, int) ([]models.MessageModel, error)
-	AddMessage(messageModel models.MessageModel) error
-}
-
 type WebSocketManager struct {
-  Storage ChatStorage
-  Clients map[string][]*models.Client
-  Mutex   sync.RWMutex
+	Storage ChatStorage
+	Clients map[string][]*models.Client
+	Mutex   sync.RWMutex
 }
 
 var upgrader = websocket.Upgrader{
@@ -140,7 +135,7 @@ func (h *WebSocketManager) handleMessages(client *models.Client) {
 	}
 }
 
-func (h *WebSocketManager) WebsocketAddClient(conn *websocket.Conn,chatRoomId string,stringUserId string) {
+func (h *WebSocketManager) WebsocketAddClient(conn *websocket.Conn, chatRoomId string, stringUserId string) {
 	client := &models.Client{
 		Id:        stringUserId,
 		Conn:      conn,

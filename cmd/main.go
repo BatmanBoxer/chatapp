@@ -1,33 +1,20 @@
 package main
 
 import (
-	"github.com/batmanboxer/chatapp/api/server"
-	"github.com/batmanboxer/chatapp/models"
 	"log"
+	"github.com/batmanboxer/chatapp/api/server"
+	"github.com/batmanboxer/chatapp/internal/postgres"
 )
 
-type TestStorage struct {}
-
-func (t TestStorage) GetMessages(a string, b int, c int) ([]models.MessageModel, error) {
-	log.Println("GetMessage")
-	return []models.MessageModel{}, nil
-}
-
-func (t TestStorage) AddMessage(messageModel models.MessageModel) error {
-	log.Println("AddMessage")
-	return nil
-}
-
-func (t TestStorage) AddAccount(a models.SignUpData) error {
-	log.Println("AddAccount")
-	return nil
-}
-
-func (t TestStorage) GetUserByEmail(a string) (models.AccountModel, error) {
-	return models.AccountModel{}, nil
-}
 
 func main() {
-	Api := server.NewApi(":4000", TestStorage{})
+	postgress, err := postgress.NewPostGres()
+
+	if err != nil {
+		log.Fatal("Cound Not Establish a Connection to Database", err.Error())
+	}
+  
+	Api := server.NewApi(":4000", postgress)
+
 	Api.StartApi()
 }

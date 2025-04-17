@@ -1,17 +1,14 @@
-package database
+package chat
 
 import (
 	"github.com/batmanboxer/chatapp/models"
 	"github.com/google/uuid"
 )
-
-type Storage interface {
-	AddAccount(models.SignUpData) error
-	GetUserByEmail(string) (models.AccountModel, error)
+ 
+type ChatStorage interface {
 	GetMessages(string, int, int) ([]models.MessageModel, error)
 	AddMessage(models.MessageModel) error
-
 	CreateChatRoom([]uuid.UUID) error
-	GetChatRoomsByUser(string) ([]*models.ChatRoom, error) 
+	GetChatRoomsByUser(string) ([]*models.ChatRoom, error)
 	RemoveUserFromRoom(int, int) error
 }

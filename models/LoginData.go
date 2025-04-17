@@ -27,6 +27,7 @@ type SignUpData struct {
 	Email    string
 	Password string
 }
+
 type AccountModel struct {
 	ID        uuid.UUID `json:"id"`
 	Name      string    `json:"name"`
@@ -35,3 +36,5 @@ type AccountModel struct {
 	Verified  bool      `json:"verified"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+

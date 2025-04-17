@@ -4,11 +4,13 @@ import (
 	"log"
 	"net/http"
 	"github.com/batmanboxer/chatapp/models"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
-type WebSocketService interface {
+type ChatService interface {
 	WebsocketAddClient(conn *websocket.Conn, chatRoomId string, userId string)
+	AddChatRoom(users []uuid.UUID) error
 }
 
 type AuthService interface {
@@ -18,22 +20,22 @@ type AuthService interface {
 
 type Handlers struct {
 	AuthManager AuthService
-	ChatManager WebSocketService
+	ChatManager ChatService
 }
 
 func NewHandlers(
-	authManager AuthService,
-	webSocketManager WebSocketService,
+	authService AuthService,
+	ChatService ChatService,
 ) *Handlers {
 	return &Handlers{
-		AuthManager: authManager,
-		ChatManager: webSocketManager,
+		AuthManager: authService,
+		ChatManager: ChatService,
 	}
 }
 
 type customHttpHandler func(http.ResponseWriter, *http.Request) error
 
-func (h *Handlers) WrapperHandler(customHandler customHttpHandler) http.HandlerFunc {
+func (h *Handlers) DefaultMiddleware(customHandler customHttpHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := customHandler(w, r)
 		if err != nil {
@@ -42,5 +44,3 @@ func (h *Handlers) WrapperHandler(customHandler customHttpHandler) http.HandlerF
 		}
 	}
 }
-
-
