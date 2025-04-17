@@ -1,5 +1,3 @@
-github.com/batmanboxer/mockchatapp v0.0.0-20250326095103-c4622434f733 h1:bN9rv1jyQFqBlh5kUGsn/0Ot6xx6DHO0MHLwYfui8Gc=
-github.com/batmanboxer/mockchatapp v0.0.0-20250326095103-c4622434f733/go.mod h1:EUcCwzAr2N+4H2q/mCi+rdCjBMaJo5vFhxstd15CNlg=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=

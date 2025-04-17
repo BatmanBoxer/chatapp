@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/batmanboxer/chatapp/internals/utils"
+	"github.com/batmanboxer/chatapp/internal/utils"
 	"github.com/batmanboxer/chatapp/models"
 )
 

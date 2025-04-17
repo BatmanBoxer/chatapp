@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 	"github.com/batmanboxer/chatapp/common"
-	"github.com/batmanboxer/chatapp/internals/utils"
+	"github.com/batmanboxer/chatapp/internal/utils"
 	"github.com/batmanboxer/chatapp/models"
 )
 

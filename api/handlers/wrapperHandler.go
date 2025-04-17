@@ -1,12 +1,8 @@
 package handlers
 
 import (
-	"context"
 	"log"
 	"net/http"
-	"github.com/batmanboxer/chatapp/internals/authentication"
-	"github.com/batmanboxer/chatapp/api/chat"
-	"github.com/batmanboxer/chatapp/common"
 	"github.com/batmanboxer/chatapp/models"
 	"github.com/gorilla/websocket"
 )
@@ -26,8 +22,8 @@ type Handlers struct {
 }
 
 func NewHandlers(
-	authManager *auth.AuthManager,
-	webSocketManager *chat.WebSocketManager,
+	authManager AuthService,
+	webSocketManager WebSocketService,
 ) *Handlers {
 	return &Handlers{
 		AuthManager: authManager,
@@ -47,23 +43,4 @@ func (h *Handlers) WrapperHandler(customHandler customHttpHandler) http.HandlerF
 	}
 }
 
-func (h *Handlers) AuthenticationMiddleware(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		// authHeader := r.Header.Get("Authorization")
-		// if authHeader == "" {
-		// 	http.Error(w, "Authorization header required", http.StatusUnauthorized)
-		// 	return
-		// }
-		//
-		// userId, err := auth.ValidateJwt(authHeader)
-		// if err != nil {
-		// 	http.Error(w, "Invalid JWT", http.StatusUnauthorized)
-		// }
-		// //also check if this user exists in userdatabase
-		//remove this fake userId later
-		userId := "test"
-		ctx := context.WithValue(r.Context(), common.CONTEXTIDKEY, userId)
 
-		next(w, r.WithContext(ctx))
-	}
-}
