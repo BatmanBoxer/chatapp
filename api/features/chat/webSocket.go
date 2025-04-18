@@ -11,7 +11,7 @@ import (
 )
 
 type WebSocketManager struct {
-	Storage ChatStorage
+	ChatStorage ChatStorage
 	Clients map[string][]*models.Client
 	Mutex   sync.RWMutex
 }
@@ -34,7 +34,7 @@ func (h *WebSocketManager) addClient(chatRoomId string, client *models.Client) {
 }
 
 func (h *WebSocketManager) initialMessage(chatRoomId string, client *models.Client, limit int) {
-	messages, err := h.Storage.GetMessages(chatRoomId, limit, 0)
+	messages, err := h.ChatStorage.GetMessages(chatRoomId, limit, 0)
 	if err != nil {
 		return
 	}
@@ -101,7 +101,7 @@ func (h *WebSocketManager) broadcastMessage(roomId string, message string, clien
 	if !ok {
 		return
 	}
-	err := h.Storage.AddMessage(models.MessageModel{
+	err := h.ChatStorage.AddMessage(models.MessageModel{
 		RoomId:   roomId,
 		Message:  message,
 		SenderId: client.Id,
@@ -118,7 +118,7 @@ func (h *WebSocketManager) broadcastMessage(roomId string, message string, clien
 	}
 }
 
-func (h *WebSocketManager) testMsg(client *models.Client) {
+func(h *WebSocketManager) testMsg(client *models.Client) {
 	for {
 		client.Messagech <- "testing"
 		time.Sleep(5 * time.Second)

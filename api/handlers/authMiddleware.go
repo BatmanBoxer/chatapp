@@ -20,7 +20,7 @@ func (h *Handlers) AuthenticationMiddleware(next customHttpHandler) http.Handler
 		if err != nil {
 			http.Error(w, "Invalid JWT", http.StatusUnauthorized)
 		}
-
+    log.Printf("userID = %s",userId)
 		//also check if this user exists in userdatabase
 		ctx := context.WithValue(r.Context(), common.CONTEXTIDKEY, userId)
 

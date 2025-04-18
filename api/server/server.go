@@ -34,7 +34,7 @@ func (api *Api) StartApi() {
 	}
 
 	ChatManager := chat.WebSocketManager{
-		Storage: api.storage,
+		ChatStorage: api.storage,
 		Clients: map[string][]*models.Client{},
 		Mutex:   sync.RWMutex{},
 	}
@@ -50,7 +50,8 @@ func (api *Api) StartApi() {
 	mux.HandleFunc("/signup", handlers.DefaultMiddleware(handlers.SignUpHandler))
 	mux.HandleFunc("/validate", handlers.DefaultMiddleware(handlers.ValidateHanlder))
 	mux.HandleFunc("/listen/{id}", handlers.AuthenticationMiddleware(handlers.WebsocketHandler))
-	mux.HandleFunc("/addChatRoom", handlers.AuthenticationMiddleware(handlers.AddChatRoomHanlder))
+	mux.HandleFunc("/addchatroom", handlers.AuthenticationMiddleware(handlers.AddChatRoomHanlder))
+	mux.HandleFunc("/getchatrooms", handlers.AuthenticationMiddleware(handlers.GetUserChatRoomsHanlder))
 
 	fmt.Print("Server Starting in Port 4000")
 	http.ListenAndServe(":4000", mux)

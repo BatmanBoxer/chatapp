@@ -115,9 +115,9 @@ func (pg *Postgres) CreateChatRoom(userIDs []uuid.UUID) error {
 	return err
 }
 
-func (pg *Postgres) GetChatRoomsByUser(userID string) ([]*models.ChatRoom, error) {
+func (pg *Postgres) GetChatRoomsByUser(userID uuid.UUID) ([]*models.ChatRoom, error) {
 	query := `SELECT id, created_at, user_ids FROM chats_room WHERE user_ids @> $1`
-	userIDJSON, err := json.Marshal([]string{userID})
+	userIDJSON, err := json.Marshal([]string{userID.String()})
 	if err != nil {
 		return nil, err
 	}

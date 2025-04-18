@@ -34,3 +34,6 @@ type ChatRoom struct {
 	UserIDs   []uuid.UUID `json:"user_ids"`
 }
 
+type AddChatRoomRequest struct {
+    Participant uuid.UUID `json:"participant"`
+}
